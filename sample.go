@@ -14,9 +14,7 @@ const (
 	TypeEventDiscardedPacket  = 5
 )
 
-var (
-	ErrUnknownSampleType = errors.New("sflow: Unknown sample type")
-)
+var ErrUnknownSampleType = errors.New("sflow: Unknown sample type")
 
 type Sample interface {
 	SampleType() int
@@ -43,6 +41,9 @@ func decodeSample(r io.ReadSeeker) (Sample, error) {
 
 	case TypeFlowSample:
 		return decodeFlowSample(r)
+
+	case TypeExpandedFlowSample:
+		return decodeExpandedFlowSample(r)
 
 	case TypeEventDiscardedPacket:
 		return decodEventDiscardedPacket(r)
